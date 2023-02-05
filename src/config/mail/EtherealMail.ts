@@ -6,7 +6,7 @@ interface IVariableTemplate {
 }
 
 interface IParseMailTemplate {
-  template: string;
+  file: string;
   variables: IVariableTemplate;
 }
 interface IMailContact {
@@ -17,7 +17,7 @@ interface ISendMail {
   to: IMailContact;
   from?: IMailContact;
   subject: string;
-  termplateData: IParseMailTemplate;
+  templateData: IParseMailTemplate;
 }
 
 export default class EtherealMail {
@@ -25,7 +25,7 @@ export default class EtherealMail {
     to,
     from,
     subject,
-    termplateData,
+    templateData,
   }: ISendMail): Promise<void> {
     const account = await nodemailer.createTestAccount();
 
@@ -51,7 +51,7 @@ export default class EtherealMail {
         address: to.email,
       },
       subject,
-      html: await mailTemplate.parse(termplateData),
+      html: await mailTemplate.parse(templateData),
     });
 
     console.log('Message sent: %s', message.messageId);
